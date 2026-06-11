@@ -110,9 +110,7 @@ def test_action_data_routed_by_namespace_to_handle_action():
     dispatcher, *_ = _build(enabled_plugins=[stub])
     provider = FakeMessengerProvider("telegram")
 
-    reply = dispatcher.dispatch(
-        _inbound(provider, action_data="demo:confirm:1")
-    )
+    reply = dispatcher.dispatch(_inbound(provider, action_data="demo:confirm:1"))
 
     assert "demo handled" in reply.text
     assert stub.handled[-1].action_data == "demo:confirm:1"

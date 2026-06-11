@@ -44,12 +44,8 @@ def upgrade() -> None:
             name="uq_bot_base_link_provider_external",
         ),
     )
-    op.create_index(
-        "ix_bot_base_link_provider_id", "bot_base_link", ["provider_id"]
-    )
-    op.create_index(
-        "ix_bot_base_link_vbwd_user_id", "bot_base_link", ["vbwd_user_id"]
-    )
+    op.create_index("ix_bot_base_link_provider_id", "bot_base_link", ["provider_id"])
+    op.create_index("ix_bot_base_link_vbwd_user_id", "bot_base_link", ["vbwd_user_id"])
 
     op.create_table(
         "bot_base_session",
@@ -84,9 +80,7 @@ def upgrade() -> None:
         sa.Column("version", sa.Integer(), nullable=False),
         sa.UniqueConstraint("token", name="uq_bot_base_link_token_token"),
     )
-    op.create_index(
-        "ix_bot_base_link_token_token", "bot_base_link_token", ["token"]
-    )
+    op.create_index("ix_bot_base_link_token_token", "bot_base_link_token", ["token"])
     op.create_index(
         "ix_bot_base_link_token_vbwd_user_id",
         "bot_base_link_token",

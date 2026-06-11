@@ -86,9 +86,7 @@ class LinkService:
         token.redeemed_at = utcnow()
         self._link_token_repository.save(token)
 
-        existing = self._link_repository.find_by_external(
-            provider_id, external_user_id
-        )
+        existing = self._link_repository.find_by_external(provider_id, external_user_id)
         if existing is not None:
             existing.vbwd_user_id = token.vbwd_user_id
             existing.bot_ref = bot_ref

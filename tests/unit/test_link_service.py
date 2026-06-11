@@ -83,9 +83,7 @@ def test_issue_then_redeem_binds_external_account_to_user():
 def test_redeem_unknown_token_rejected():
     service = _service()
     with pytest.raises(LinkTokenInvalidError):
-        service.redeem_token(
-            "nope", provider_id="telegram", external_user_id="tg-1"
-        )
+        service.redeem_token("nope", provider_id="telegram", external_user_id="tg-1")
 
 
 def test_expired_token_rejected():
@@ -109,9 +107,7 @@ def test_expired_token_rejected():
 def test_double_redeem_rejected():
     service = _service()
     token = service.issue_token(uuid4())
-    service.redeem_token(
-        token.token, provider_id="telegram", external_user_id="tg-1"
-    )
+    service.redeem_token(token.token, provider_id="telegram", external_user_id="tg-1")
 
     with pytest.raises(LinkTokenAlreadyRedeemedError):
         service.redeem_token(

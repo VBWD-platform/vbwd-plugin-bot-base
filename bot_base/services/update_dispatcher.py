@@ -34,6 +34,16 @@ from plugins.bot_base.bot_base.types import BotIdentity, BotInbound, BotReply
 
 BUILTIN_NAMESPACE = "bot-base"
 
+# The built-in command set, as ``{command, description}`` rows. The same rows
+# feed both the run-on text fallback (non-rich clients) and the ``bot_menu``
+# ``meta`` (rich clients) — one source of truth (DRY).
+_BUILTIN_HELP_COMMANDS = (
+    {"command": "/hello", "description": "say hello"},
+    {"command": "/start", "description": "connect your account"},
+    {"command": "/stop", "description": "end the current conversation"},
+    {"command": "/help", "description": "show this menu"},
+)
+
 
 class UpdateDispatcher:
     """Routes a normalized inbound update to a reply (built-in or consumer)."""
@@ -143,28 +153,37 @@ class UpdateDispatcher:
         except LinkTokenInvalidError:
             return BotReply(text="That link token is not valid.")
         except LinkTokenExpiredError:
-            return BotReply(text="That link token has expired. Please request a new one.")
+            return BotReply(
+                text="That link token has expired. Please request a new one."
+            )
         except LinkTokenAlreadyRedeemedError:
             return BotReply(text="That link token has already been used.")
         return BotReply(text="Your account is now connected.")
 
     def _stop(self, inbound: BotInbound) -> BotReply:
-        self._conversation_service.clear(
-            inbound.provider_id, inbound.chat_ref.chat_id
-        )
+        self._conversation_service.clear(inbound.provider_id, inbound.chat_ref.chat_id)
         return BotReply(text="Conversation cleared. Type /help to start again.")
 
     def _help_menu(self) -> BotReply:
-        lines: List[str] = [
-            "Available commands:",
-            "/hello — say hello",
-            "/start <token> — connect your account",
-            "/stop — end the current conversation",
-            "/help — show this menu",
-        ]
+        command_rows = self._help_command_rows()
+        lines: List[str] = ["Available commands:"]
+        lines.extend(f"{row['command']} — {row['description']}" for row in command_rows)
+        return BotReply(
+            text="\n".join(lines),
+            meta={"kind": "bot_menu", "commands": command_rows},
+        )
+
+    def _help_command_rows(self) -> List[dict]:
+        """The built-in commands plus every registered consumer command, as
+        ``{command, description}`` rows. No hard-coded plugin knowledge — the
+        consumer commands are derived from the :class:`CommandRegistry`, so the
+        ``bot_menu`` stays accurate as plugins enable/disable."""
+        rows: List[dict] = [dict(row) for row in _BUILTIN_HELP_COMMANDS]
         for command in self._command_registry.collect_commands():
-            lines.append(f"/{command.name} — {command.description}")
-        return BotReply(text="\n".join(lines))
+            rows.append(
+                {"command": f"/{command.name}", "description": command.description}
+            )
+        return rows
 
 
 def _replace_identity(inbound: BotInbound, identity: BotIdentity) -> BotInbound:

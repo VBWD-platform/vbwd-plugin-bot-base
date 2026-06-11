@@ -12,9 +12,7 @@ class _NotACommandProvider:
 
 def test_collects_only_command_providers():
     demo = StubCommandProvider("demo")
-    registry = CommandRegistry(
-        FakePluginManager([demo, _NotACommandProvider()])
-    )
+    registry = CommandRegistry(FakePluginManager([demo, _NotACommandProvider()]))
 
     providers = registry.get_command_providers()
 

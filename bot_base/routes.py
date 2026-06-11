@@ -94,7 +94,9 @@ def link_status():
         return jsonify({"error": "Query parameter 'provider' is required"}), 400
 
     link = _link_service().get_link_for_user(provider_id, g.user_id)
-    return jsonify({"linked": link is not None, "link": link.to_dict() if link else None})
+    return jsonify(
+        {"linked": link is not None, "link": link.to_dict() if link else None}
+    )
 
 
 @bot_base_bp.route("/link", methods=["DELETE"])

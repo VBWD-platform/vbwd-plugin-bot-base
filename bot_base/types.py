@@ -63,11 +63,15 @@ class BotChoice:
 
     ``action_data`` is opaque to ``bot-base`` and namespaced
     ``"<plugin>:<action>:<arg>"`` so the dispatcher can route a tapped choice
-    back to the owning consumer's ``handle_action`` (D7).
+    back to the owning consumer's ``handle_action`` (D7). ``hint`` is an optional
+    short secondary label (e.g. a price string ``"€29/mo"``) a rich provider may
+    render right-aligned on the card; it defaults to ``None`` so non-rich
+    providers/consumers are unaffected.
     """
 
     label: str
     action_data: str
+    hint: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -97,7 +101,17 @@ class BotReply:
     ``text`` is the message body; ``choices`` are optional tappable choices
     rendered natively by each provider (Telegram inline keyboard, plain
     numbered list, ...).
+
+    ``meta`` is an optional **provider-neutral** structured payload
+    ``{"kind": "...", ...}`` (e.g. ``bot_menu`` / ``bot_cart``, or a clean
+    ``{"text": ...}`` prompt accompanying ``choices``). It carries NO provider
+    specifics and does NOT contain the choices themselves — those stay in
+    ``choices``. Each provider's sender translates it natively (meinchat →
+    ``message.meta``; a non-rich client ignores it and renders ``text``). It
+    defaults to ``None`` so every existing reply behaves exactly as before
+    (Liskov).
     """
 
     text: str
     choices: List[BotChoice] = field(default_factory=list)
+    meta: Optional[dict] = None
