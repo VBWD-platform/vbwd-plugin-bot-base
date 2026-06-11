@@ -1,0 +1,34 @@
+{
+  "tabs": [
+    {
+      "id": "general",
+      "label": "General",
+      "fields": [
+        {
+          "key": "debug_mode",
+          "label": "Debug mode",
+          "component": "checkbox",
+          "description": "Enable verbose debug logging. Disable in production (live mode)."
+        },
+        {
+          "key": "link_token_ttl_seconds",
+          "label": "Link token TTL (seconds)",
+          "component": "input",
+          "inputType": "number",
+          "min": 60,
+          "max": 86400,
+          "description": "How long an issued one-time link token stays redeemable. Default 900 (15 minutes)."
+        },
+        {
+          "key": "conversation_idle_timeout_seconds",
+          "label": "Conversation idle timeout (seconds)",
+          "component": "input",
+          "inputType": "number",
+          "min": 60,
+          "max": 86400,
+          "description": "How long a chat's active conversation owner persists without activity before it is cleared. Default 1800 (30 minutes)."
+        }
+      ]
+    }
+  ]
+}

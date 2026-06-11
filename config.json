@@ -1,0 +1,21 @@
+{
+  "debug_mode": {
+    "type": "boolean",
+    "default": false,
+    "description": "Enable verbose debug logging for the bot-base plugin (live mode when off)"
+  },
+  "link_token_ttl_seconds": {
+    "type": "integer",
+    "default": 900,
+    "min": 60,
+    "max": 86400,
+    "description": "How long an issued one-time link token stays redeemable, in seconds (D3 identity linking). Default 15 minutes."
+  },
+  "conversation_idle_timeout_seconds": {
+    "type": "integer",
+    "default": 1800,
+    "min": 60,
+    "max": 86400,
+    "description": "How long a chat's active conversation owner persists without activity before it is treated as cleared, in seconds. After this, free text falls back to the help menu. Default 30 minutes."
+  }
+}
