@@ -125,11 +125,27 @@ class UpdateDispatcher:
             inbound.provider_id, inbound.chat_ref.chat_id
         )
         if owner is None:
+            # No command has claimed this chat. Before falling back to the help
+            # menu, offer the turn to an AMBIENT ANSWERER — an enabled provider
+            # that opted in via ``bot_ambient_answerer = True`` (e.g. the LLM
+            # sales consultant). This lets a guest just talk, no command needed.
+            # Additive + opt-in: no ambient provider → help menu, exactly as before.
+            ambient = self._ambient_provider()
+            if ambient is not None:
+                return ambient.handle_action(inbound)
             return self._help_menu()
         provider = self._command_registry.get_provider_for_namespace(owner)
         if provider is None:
             return self._help_menu()
         return provider.handle_action(inbound)
+
+    def _ambient_provider(self):
+        """The first enabled provider that opts into answering unclaimed free
+        text (``bot_ambient_answerer = True``), or ``None``."""
+        for provider in self._command_registry.get_command_providers():
+            if getattr(provider, "bot_ambient_answerer", False):
+                return provider
+        return None
 
     # ── built-in commands ───────────────────────────────────────────────────
     def _hello(self) -> BotReply:
