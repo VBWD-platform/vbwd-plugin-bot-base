@@ -67,11 +67,18 @@ class BotChoice:
     short secondary label (e.g. a price string ``"€29/mo"``) a rich provider may
     render right-aligned on the card; it defaults to ``None`` so non-rich
     providers/consumers are unaffected.
+
+    ``url`` is an optional PUBLIC fe route (e.g. ``"/shop/product/blue-shirt"``).
+    When present a rich provider's widget NAVIGATES to it on tap instead of
+    sending the ``action_data`` back to the bot — so a choice can deep-link to a
+    detail page. It defaults to ``None`` (the normal action-dispatch path), so
+    every existing choice behaves exactly as before (Liskov).
     """
 
     label: str
     action_data: str
     hint: Optional[str] = None
+    url: Optional[str] = None
 
 
 @dataclass(frozen=True)
