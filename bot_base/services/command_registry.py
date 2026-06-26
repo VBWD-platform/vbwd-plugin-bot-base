@@ -46,7 +46,7 @@ class CommandRegistry:
     def command_index(self) -> Dict[str, BotCommandProvider]:
         """Map of bare command name → owning provider (last writer wins).
 
-        Lets the dispatcher route ``/draw`` to taro without ``bot-base``
+        Lets the dispatcher route ``/draw`` to tarot without ``bot-base``
         hard-coding any consumer command.
         """
         index: Dict[str, BotCommandProvider] = {}

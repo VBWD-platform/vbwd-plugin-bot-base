@@ -8,7 +8,7 @@ from plugins.bot_base.bot_base.types import BotChoice
 
 
 def test_bot_choice_url_defaults_to_none() -> None:
-    choice = BotChoice(label="Reveal", action_data="taro:reveal:1")
+    choice = BotChoice(label="Reveal", action_data="tarot:reveal:1")
 
     assert choice.url is None
 

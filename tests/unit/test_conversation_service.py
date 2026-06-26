@@ -29,9 +29,9 @@ class _FakeSessionRepo:
 
 def test_claim_then_get_active_owner():
     service = ConversationService(_FakeSessionRepo())
-    service.claim("telegram", "chat-1", "taro")
+    service.claim("telegram", "chat-1", "tarot")
 
-    assert service.get_active_owner("telegram", "chat-1") == "taro"
+    assert service.get_active_owner("telegram", "chat-1") == "tarot"
 
 
 def test_no_session_means_no_owner():
@@ -41,7 +41,7 @@ def test_no_session_means_no_owner():
 
 def test_clear_removes_owner():
     service = ConversationService(_FakeSessionRepo())
-    service.claim("telegram", "chat-1", "taro")
+    service.claim("telegram", "chat-1", "tarot")
 
     service.clear("telegram", "chat-1")
 
@@ -50,7 +50,7 @@ def test_clear_removes_owner():
 
 def test_idle_timeout_clears_owner():
     repo = _FakeSessionRepo()
-    stale = BotSession(provider_id="telegram", chat_ref="chat-1", active_plugin="taro")
+    stale = BotSession(provider_id="telegram", chat_ref="chat-1", active_plugin="tarot")
     stale.updated_at = utcnow() - timedelta(seconds=10_000)
     repo.save(stale)
     service = ConversationService(repo, conversation_idle_timeout_seconds=60)

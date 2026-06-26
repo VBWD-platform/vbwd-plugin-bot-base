@@ -1,6 +1,6 @@
 # bot-base — rich messages (`BotReply.meta` + `BotChoice.hint`)
 
-**Since:** S70 (2026-06-11). **Audience:** consumer plugins (e.g. `subscription` storefront, `chat`, `taro`) and messenger adapters (`bot_telegram`, `bot_meinchat`).
+**Since:** S70 (2026-06-11). **Audience:** consumer plugins (e.g. `subscription` storefront, `chat`, `tarot`) and messenger adapters (`bot_telegram`, `bot_meinchat`).
 
 `bot-base` stays provider-neutral: a consumer returns a `BotReply`, and each adapter renders it for its transport. To let consumers send **structured, styleable content** (choice cards, a command menu, a cart) without knowing the transport, `BotReply` carries an optional, provider-neutral **`meta`** payload, and `BotChoice` carries an optional **`hint`**.
 

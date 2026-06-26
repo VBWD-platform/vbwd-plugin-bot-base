@@ -31,10 +31,10 @@ def test_collect_commands_flattens_across_providers():
 
 
 def test_get_provider_for_namespace():
-    demo = StubCommandProvider("taro")
+    demo = StubCommandProvider("tarot")
     registry = CommandRegistry(FakePluginManager([demo]))
 
-    assert registry.get_provider_for_namespace("taro") is demo
+    assert registry.get_provider_for_namespace("tarot") is demo
     assert registry.get_provider_for_namespace("missing") is None
 
 

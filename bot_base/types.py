@@ -49,7 +49,7 @@ class BotCommand:
     """A command a consumer exposes to the bot menu (the ``/help`` listing).
 
     ``name`` is the bare command without the leading slash ("draw", "balance").
-    ``namespace`` is the owning consumer's ``bot_namespace`` ("taro", "chat").
+    ``namespace`` is the owning consumer's ``bot_namespace`` ("tarot", "chat").
     """
 
     name: str
