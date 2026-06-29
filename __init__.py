@@ -37,7 +37,7 @@ class BotBasePlugin(BasePlugin):
     def metadata(self) -> PluginMetadata:
         return PluginMetadata(
             name="bot-base",
-            version="26.6",
+            version="26.6.1",
             author="VBWD Team",
             description=(
                 "Provider-neutral bot bridge: messenger-provider registry, "
